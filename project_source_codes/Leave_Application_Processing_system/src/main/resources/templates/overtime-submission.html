@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+    <h2 th:text="#{title.overtimeSubmission}">Overtime submission</h2>
+    <form th:action="@{/overtime/add}" th:object="${overtime}" method="post">
+        <table border="0" cellspacing="0" cellpadding="10">
+            <tbody>
+                <tr>
+                    <input type="hidden" th:field="*{employeeId}" />
+                    <td><span th:text="#{fieldLabel.date}">Date(yy/mm/dd)</span></td>
+                    <td><input type="date" th:field="*{overtimeDate}" size="40" /><span th:if="${#fields.hasErrors('overtimeDate')}" th:errors="*{overtimeDate}"></span></td>
+                    <!--<td class="no-style" th:if="${#fields.hasErrors('overtimeDate')}" th:errors="*{overtimeDate}"></td>-->
+                </tr>
+                <tr>
+                    <td><span th:text="#{fieldLabel.timeFrom}">timeFrom</span></td>
+                    <td><input type="time" th:field="*{comeTime}" size="40" /><span th:if="${#fields.hasErrors('comeTime')}" th:errors="*{comeTime}"></span></td>
+                    <!--<td class="no-style" th:if="${#fields.hasErrors('comeTime')}" th:errors="*{comeTime}"></td>-->
+                </tr>
+                <tr>
+                    <td><span th:text="#{fieldLabel.timeTo}">timeTo</span></td>
+                    <td><input type="time" th:field="*{leaveTime}" size="40" /><span th:if="${#fields.hasErrors('leaveTime')}" th:errors="*{leaveTime}"></span></td>
+                    <!--<td class="no-style" th:if="${#fields.hasErrors('leaveTime')}" th:errors="*{leaveTime}"></td>-->
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit" class="submit-button" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <br />
+    <h2>Overtime history</h2>
+    <table border="0" cellspacing="0" cellpadding="10">
+        <tr>
+            <th th:text="#{fieldLabel.date}">Date(yy/mm/dd)</th>
+            <th th:text="#{fieldLabel.timeFrom}">timeFrom</th>
+            <th th:text="#{fieldLabel.timeTo}">timeTo</th>
+            <th th:text="#{fieldLabel.duration}">duration</th>
+            <th th:text="#{fieldLabel.status}">apply status</th>
+        </tr>
+        <tr th:each="list:${applylist}">
+            <td th:text="${list.overtimeDate}"></td>
+            <td th:text="${list.comeTime}"></td>
+            <td th:text="${list.leaveTime}"></td>
+            <td th:text="${list.overtimeHours}"></td>
+            <td th:text="${list.status}"></td>
+        </tr>
+    </table>
+    <div>Total overtime hours: <span th:text="${totalOvertimeHours}"></span> hours</div>
+    <div>Compensation leave earned: <span th:text="${totalCompensationdays}"></span> days</div>
+    <div>Compensation leave approved: <span th:text="${approvedCompensationdays}"></span> days</div>
+
+
+</body>
+
+</html>

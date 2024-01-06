@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+      <div th:if="${#lists.isEmpty(leaves)}">
+        <h2 th:text="#{title.leave.history}">Leave History</h2>
+        <p>You have not applied any leave.</p>
+      </div>
+          
+      <div th:if="${not #lists.isEmpty(leaves)}">
+        <h2>Leave History</h2>
+        <table border="1" cellspacing="0" cellpadding="10">
+          <tr>
+            <th><span th:text="#{fieldLabel.employeeId}">Employee ID</span></th>
+            <th><span th:text="#{fieldLabel.startDate}">Start Date</span></th>
+            <th><span th:text="#{fieldLabel.endDate}">End Date</span></th>
+            <th><span th:text="#{fieldLabel.category}">Category</span></th>
+            <!--<th><span>Additional Reasons</span></th>-->
+            <!--<th><span>Work Dissemination (if any)</span></th>-->
+            <th><span th:text="#{fieldLabel.contactDetails}">Contact Details (overseas)</span></th>
+            <th><span th:text="#{fieldLabel.status}">Status</span></th>
+            <th><span th:text="#{fieldLabel.link}">Link</span></th>
+          </tr>
+          <tr th:each="leave:${leaves}">
+            <td align="left" th:text="${leave.employeeId}"></td>
+            <td align="left" th:text="${#temporals.format(leave.fromDate, 'dd-MMM-yyyy')}"></td>
+            <td align="left" th:text="${#temporals.format(leave.toDate, 'dd-MMM-yyyy')}"></td>
+            <td align="left" th:text="${leave.category.name}"></td>
+            <!--<td align="left" th:text="${leave.additionalReasons}"></td>-->
+            <!--<td align="left" th:text="${leave.workDissemination}"></td>-->
+            <td align="left" th:text="${leave.contactDetails}"></td>
+            <td align="left" th:text="${leave.status}"></td>
+            <td align="left"><a th:href="@{/leave/application/}+${leave.leaveId}" th:text="#{caption.details}" class="button">Details</a></td>
+          </tr>
+        </table>
+      </div>
+    </body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.user.edit}">Edit User page</h3>
+	<form th:action="@{/admin/user/edit/}+${user.userId}" th:object="${user}" method="post">
+		<table>
+			<tbody>
+
+				<tr>
+					<td><span th:text="#{fieldLabel.userId}"></span></td>
+					<td><input type="text" th:field="*{userId}" readonly="readonly" /><span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.employeeId}"></span></td>
+					<td><input type="text" th:field="*{employeeId}" readonly="readonly" /><span th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.username}"></span></td>
+					<td><input type="text" th:field="*{name}" /><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.password}"></span></td>
+					<td><input type="text" th:field="*{password}" /><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
+				</tr>
+				<tr>
+					<td><label>User roles (multiple select):</label></td>
+					<td>
+						<select size="03" multiple="multiple" id="roleSet" name="roleSet">
+							<option th:each="role : ${roles}" th:value="${role.roleId}" th:text="${role.description}"
+								th:selected="${user.roleSet.contains(role)}">Roles</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="Update" class="submit-button"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.hierarchy.edit}">Edit Hierarchy Page</h3>
+	<form th:action="@{/hierarchy/edit}" method="post" th:object="${map}">
+		<label for="selectedEmployees" th:text="#{fieldLabel.selectEmployee}"></label>
+		<select id="selectedEmployees" name="selectedEmployees" multiple="multiple">
+			<option th:each="employee : ${map}" th:value="${employee.key}" th:text="${employee.key}"
+			th:if="${not employee.value}"></option>
+		</select>
+
+		<label for="selectedManager" th:text="#{fieldLabel.selectManager}"></label>
+		<select id="selectedManager" name="selectedManager">
+			<option th:each="employee : ${map}" th:value="${employee.key}" th:text="${employee.key}" 
+			th:if="${employee.value}"></option>
+		</select>
+
+		<button type="submit" th:text="#{fieldLabel.submit}" class="submit-button"></button>
+	</form>
+</body>
+
+</html>

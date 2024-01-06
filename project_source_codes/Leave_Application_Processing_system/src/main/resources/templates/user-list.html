@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.user.list}">User List page</h3>
+	<a th:href="@{/admin/user/create}" th:text="#{caption.addUser}" class="button">Add User</a>
+	<div th:if="${not #lists.isEmpty(userList)}">
+		<table>
+			<thead>
+				<tr>
+					<th><span th:text="#{fieldLabel.userId}"></span></th>
+					<th><span th:text="#{fieldLabel.username}"></span></th>
+					<th><span th:text="#{fieldLabel.password}"></span></th>
+					<th><span th:text="#{fieldLabel.employeeId}"></span></th>
+					<th><span th:text="#{caption.edit}"></span></th>
+					<th><span th:text="#{caption.delete}"></span></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="user : ${userList}">
+					<td th:text="${user.userId}">Id</td>
+					<td th:text="${user.name}">Name</td>
+					<td th:text="${user.password}">Password</td>
+					<td th:text="${user.employeeId}">Employee</td>
+
+					<td><a th:href="@{/admin/user/edit/}+${user.userId}" class="button"><span
+								th:text="#{caption.edit}"></span></a></td>
+					<td><a th:href="@{/admin/user/delete/}+${user.userId}" class="button"><span
+								th:text="#{caption.delete}"></span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

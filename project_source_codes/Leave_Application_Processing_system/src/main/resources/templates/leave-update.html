@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h2 th:text="#{title.leave.edit}">Update Leave</h2>
+	<table style="text-align:center;">
+		<tr>
+			<th th:text="#{fieldLabel.category}">Category</th>
+			<th th:each="cat:${categories}" th:text="${cat.name}"></th>
+		</tr>
+		<tr>
+			<th th:text="#{fieldLabel.balance}">Balance</th>
+			<td th:text="${annualLeaveBal}"></td>
+			<td th:text="${compensationLeaveBal}"></td>
+			<td th:text="${medicalLeaveBal}"></td>
+		</tr>
+	</table>
+	<form th:action="@{/leave/application/update/} + ${leave.leaveId}" method="post" th:object="${leave}">
+		<table>
+			<tr>
+				<td><label for="employeeId" th:text="#{fieldLabel.employeeId}">Employee ID</label></td>
+				<td>
+					<input id="employeeId" th:field="*{employeeId}" type="text" readonly />
+					<span th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="fromDate" th:text="#{fieldLabel.startDate}">Start Date*</label></td>
+				<td>
+					<input id="fromDate" th:field="*{fromDate}" type="date" />
+					<span th:if="${#fields.hasErrors('fromDate')}" th:errors="*{fromDate}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="toDate" th:text="#{fieldLabel.endDate}">End Date*</label></td>
+				<td>
+					<input id="toDate" th:field="*{toDate}" type="date" />
+					<span th:if="${#fields.hasErrors('toDate')}" th:errors="*{toDate}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="category" th:text="#{fieldLabel.category}">Category*</label></td>
+				<td>
+					<select id="category" th:field="*{category}" th:value="*{category}">
+						<option value="" th:text="#{fieldLabel.selectCategory}">Select Category</option>
+						<option th:each="cat:${categories}" th:value="${cat.categoryId}" th:text="${cat.name}">
+						</option>
+					</select><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="additionalReasons" th:text="#{fieldLabel.additionalReasons}">Addtional Reasons*</label>
+				</td>
+				<td>
+					<textarea id="additionalReasons" th:field="*{additionalReasons}" th:value="*{additionalReasons}"
+						rows="3" cols="50"></textarea>
+					<span th:if="${#fields.hasErrors('additionalReasons')}" th:errors="*{additionalReasons}"></span>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="workDissemination" th:text="#{fieldLabel.workDissemination}">Work Dissemination (if
+						any)</label></td>
+				<td><textarea th:field="*{workDissemination}" th:value="*{workDissemination}" rows="5"
+						cols="50"></textarea></td>
+			</tr>
+			<tr>
+				<td><label for="contactDetails" th:text="#{fieldLabel.contactDetails}">Contact Details (if on an overseas
+						trip)</label></td>
+				<td><input th:field="*{contactDetails}" th:value="*{contactDetails}" type="tel"
+						placeholder="CountryCode - Number" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="Submit" class="submit-button"/>
+					<input th:field="*{status}" type="hidden" /><input th:field="*{leaveId}" type="hidden" /></td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+    <table>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.leaveId}">LeaveID</span></th>
+            <td colspan="3" th:text="${leave.leaveId}"></td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="${leave.employeeId}"></span></th>
+            <td colspan="3" th:text="${leave.category.name}">Name</td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.startDate}">Start Date</span></th>
+            <td th:text="${#temporals.format(leave.fromDate, 'dd-MMM-yyyy')}">From Date</td>
+            <th align="right"><span th:text="#{fieldLabel.endDate}">End Date</span></th>
+            <td th:text="${#temporals.format(leave.toDate, 'dd-MMM-yyyy')}">To Date</td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.justification}">Justification</span>
+            </th>
+            <td colspan="3" th:text="${leave.additionalReasons}">Justification</td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.status}">Status</span></th>
+            <td colspan="3" th:text="${leave.status}">Status</td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.annualLeaveUsed}">Annual Leave Used</span></th>
+            <td th:text="${annualLeaveUsed}" colspan="3"></td>
+        </tr>
+        <tr>
+            <th align="right"><span th:text="#{fieldLabel.medicalLeaveUsed}">Medical Leave Used</span></th>
+            <td th:text="${medicalLeaveUsed}" colspan="3"></td>
+        </tr>
+    </table>
+
+
+    <form action="#" th:action="@{/manager/leave/display/}+${leave.leaveId}" th:object="${approve}" method="post">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <input type="radio" th:field="*{decision}" th:value="APPROVED" />
+                    <label th:text="#{caption.approved}">APPROVED</label> &nbsp;&nbsp;
+                    <input type="radio" th:field="*{decision}" th:value="REJECTED" />
+                    <label th:text="#{caption.rejected}">REJECTED</label>
+                    <span th:if="${#fields.hasErrors('decision')}" th:errors="*{decision}"></span></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><input type="text" th:field="*{comment}" placeholder="enter your comment"><span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></span></td>
+            </tr>
+            <tr>
+                <td>
+
+                    <button th:type="submit" th:value="Update" class="submit-button">Update</button>
+
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+    <h4>Leave History</h4>
+    <div th:if="${#lists.isEmpty(DecidedLeave)}">
+        No Leaves
+    </div>
+    <div th:if="${not #lists.isEmpty(DecidedLeave)}">
+        <table>
+            <tr>
+                <th th:text="#{fieldLabel.leaveId}">Leave Id</th>
+                <th th:text="#{fieldLabel.employeeId}">Name</th>
+                <th th:text="#{fieldLabel.category}">Category</th>
+                <th th:text="#{fieldLabel.startDate}">Start</th>
+                <th th:text="#{fieldLabel.endDate}">End</th>
+                <th th:text="#{fieldLabel.status}">Status</th>
+            </tr>
+            <tr th:each="leave : ${DecidedLeave}">
+                <td th:text="${leave.leaveId}">Leave Id</td>
+                <td th:text="${leave.employeeId}">Empployee Id</td><!--需要在leave类里面补充名字-->
+                <td th:text="${leave.category.name}">Name</td>
+                <td th:text="${leave.fromDate}">From</td>
+                <td th:text="${leave.toDate}">To</td>
+                <td th:text="${leave.status}">Status</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

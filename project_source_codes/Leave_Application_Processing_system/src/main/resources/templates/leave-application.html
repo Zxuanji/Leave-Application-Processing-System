@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+        <h2 th:text="#{title.leave.application}">Leave Details</h2>
+        <form id="maintainLeave" th:action="@{/leave/application/update/} + ${leaveId}" method="post" th:object="${leave}">
+            <table border="0" cellspacing="0" cellpadding="10">
+                <tr align="left">
+                    <th th:text="#{fieldLabel.employeeId}" style="text-align:left;">Employee ID</th>
+                    <td><input th:field="*{employeeId}" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.startDate}" style="text-align:left;">Start Date</th>
+                    <td><input th:field="*{fromDate}" type="text" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.endDate}" style="text-align:left;">End Date</th>
+                    <td><input th:field="*{toDate}" type="text" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.numberOfDays}" style="text-align:left;">Number Of Days</th>
+                    <td><input th:field="*{numOfDays}" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.category}" style="text-align:left;">Category</th>
+                    <td><input th:field="*{category.name}" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.additionalReasons}" style="text-align:left;">Addtional Reasons</th>
+                    <td><textarea th:text="*{additionalReasons}" rows="3" cols="50" readonly></textarea></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.workDissemination}" style="text-align:left;">Work Dissemination (if any)</th>
+                    <td><textarea th:text="*{workDissemination}" rows="5" cols="50" readonly></textarea></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.contactDetails}" style="text-align:left;">Contact Details (if on an overseas trip)</th>
+                    <td><input th:field="*{contactDetails}" readonly /></td>
+                </tr>
+                <tr align="left" th:if="${isRejected}">
+                    <th th:text="#{fieldLabel.managerComment}" style="text-align:left;">Manager Comment</th>
+                    <td><input th:field="*{comment}" readonly /></td>
+                </tr>
+                <tr align="left">
+                    <th th:text="#{fieldLabel.status}" style="text-align:left;">Status</th>
+                    <td><input th:field="*{status}" readonly /></td>
+                </tr>
+                
+                <tr th:if="${isApproved}">
+                    <td colspan="2"><!--APPROVED-->
+                        <a th:href="@{/leave/application/cancel/}+${leaveId}" th:text="#{caption.cancel}" class="button">Cancel</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:if="${isApplied || isUpdated}" colspan="2"><!--APPLIED OR UPDATED-->
+                        <input type="submit" value="Edit" class="button" /><input type="hidden" th:field="*{leaveId}" />&nbsp;
+                        <a th:href="@{/leave/application/delete/}+${leaveId}" th:text="#{caption.delete}" class="button">Delete</a>
+                    </td>
+                </tr>
+                
+            </table>
+        </form>
+    </body>
+
+</html>

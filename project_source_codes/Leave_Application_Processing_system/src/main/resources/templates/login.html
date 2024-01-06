@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.login}">Log in</h3>
+	<form th:object="${user}" th:action="@{'/home/authenticate'}" method="post">
+		<table style="width:60%">
+			<tr>
+				<td style="width:20%"><span th:text="#{fieldLabel.username}">Username</span></td>
+				<td style="width:40%"><input type="text" th:field="*{name}"><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+			</tr>
+			<tr>
+				<td><span th:text="#{fieldLabel.password}">Password</span></td>
+				<td><input type="password" th:field="*{password}"><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" class="submit-button" th:value="#{title.login}">
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div th:if="${unauthenticated}" th:text="#{unauthenticated}"></div>
+	
+	<h3 th:text="#{title.changeLanguage}">Change Language</h3>
+	<a href="/home/login?lang=en" th:text="#{title.changeToEn}" class="button">English</a>
+	<a href="/home/login?lang=zh" th:text="#{title.changeToZh}" class="button">Chinese</a>
+</body>
+</html>

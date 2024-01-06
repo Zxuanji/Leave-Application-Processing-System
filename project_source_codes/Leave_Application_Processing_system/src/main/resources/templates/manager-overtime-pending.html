@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<form th:action="@{/manager/overtime/certification/all}" th:object="${pendingOvertime}" method="post">
+		<table>
+			<tr th:each="entry, stat : ${pendingOvertime} "><!--这里遍历每个人-->
+				<td>
+					<h4 th:text="${entry.key.name}">Name</h4>
+					<div th:if="${#lists.isEmpty(entry.value)}"><!--这边判断这个人是否有申请-->
+						<p>No Pending Overtime</p>
+					</div>
+					<div th:if="${not #lists.isEmpty(entry.value)}">
+						<table style="border: 1;">
+							<tr class="listHeading">
+								<th th:text="#{fieldLabel.date}">Date(yy/mm/dd)</th>
+								<th th:text="#{fieldLabel.timeFrom}">timeFrom</th>
+								<th th:text="#{fieldLabel.timeTo}">timeTo</th>
+								<th th:text="#{fieldLabel.duration}">duration</th>
+								<th></th>
+							</tr>
+							<tr th:each="overtime : ${entry.value}">
+								<td th:text="${overtime.overtimeDate}"></td>
+								<td th:text="${overtime.comeTime}"></td><!--需要在leave类里面补充名字-->
+								<td th:text="${overtime.leaveTime}"></td>
+								<td th:text="${overtime.overtimeHours}"></td>
+								<td><a th:href="@{/manager/overtime/approve/}+${overtime.id}" th:text="#{caption.approved}" class="button">Approved</a></td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<button type="submit" th:text="#{caption.approve}" class="submit-button">Approve</button>
+		</table>
+	</form>
+</body>

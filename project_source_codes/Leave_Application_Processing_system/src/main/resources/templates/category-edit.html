@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.category.edit}">Edit Category page</h3>
+	<form th:action="@{/admin/category/edit/}+${category.categoryId}" th:object="${category}" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td><span th:text="#{fieldLabel.categoryId}"></span></td>
+					<td><input type="text" th:field="*{categoryId}" readonly="readonly" /><span th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.categoryName}"></span></td>
+					<td><input type="text" th:field="*{name}" /><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.categoryDesc}"></span></td>
+					<td><input type="text" th:field="*{description}" /><span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span></td>
+				</tr>
+				
+				<tr th:if="${category.categoryId != 'annual'}">
+					<td><span th:text="#{fieldLabel.daysOff}"></span></td>
+					<td><input type="number" th:field="*{daysOff}" /><span th:if="${#fields.hasErrors('daysOff')}" th:errors="*{daysOff}"></span></td>
+				</tr>
+				
+				<tr th:if="${category.categoryId == 'annual'}">
+					<td><span th:text="#{fieldLabel.daysOffForManager}"></span></td>
+					<td><input type="number" th:field="*{daysOff}" /><span th:if="${#fields.hasErrors('daysOff')}" th:errors="*{daysOff}"></span></td>
+				</tr>
+				<tr th:if="${category.categoryId == 'annual'}">
+					<td><span th:text="#{fieldLabel.daysOffForStaff}"></span></td>
+					<td><input type="number" th:field="*{differenceForAdmin}"/></td>
+				</tr>
+
+
+				<tr>
+					<td colspan="2"><input type="submit" value="Update" class="submit-button"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+</body>
+
+</html>

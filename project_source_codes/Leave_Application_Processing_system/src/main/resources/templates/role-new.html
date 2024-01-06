@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.role.new}">Create Role page</h3>
+	<form th:action="@{'/admin/role/create'}" th:object="${role}" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td><span th:text="#{fieldLabel.roleId}"></span></td>
+					<td><input type="text" th:field="*{roleId}" /><span th:if="${#fields.hasErrors('roleId')}" th:errors="*{roleId}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.roleName}"></span></td>
+					<td><input type="text" th:field="*{name}" /><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.roleDesc}"></span></td>
+					<td><input type="text" th:field="*{description}" /><span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="Create" class="submit-button" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+
+</html>

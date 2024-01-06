@@ -1,0 +1,75 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="html_head" id="html_head">
+	<meta charset="ISO-8859-1">
+	<title>Leave Application Processing System - LAPS</title>
+	<link rel="stylesheet" th:href="@{/css/simple.css}" />
+</head>
+
+<body>
+	<div th:fragment="menu" id="menu">
+
+		<!-- Navigation -->
+		<nav class="navbar">
+			<a th:href="@{/home/login}">Leave Application Processing System - LAPS</a>
+			<div th:if="${session.user?.user}">
+				<!-- ?: safe navigation operator, which avoids a null pointer exception if session.usession is null. -->
+				<div th:each="role : ${session.user.user.roleSet}">
+					<div th:if="${role.roleId == 'manager'}">
+						<div class="subnav">
+							<button class="subnavbtn" th:utext="#{menu.managerMenu}">Manager Menu <i
+									class="fa fa-caret-down"></i></button>
+							<div class="subnav-content">
+								<a th:href="@{/manager/pending}" th:utext="#{menu.leavesPending}">Pending
+									Approvals</a>
+								<a th:href="@{/manager/subordinates-history}"
+									th:utext="#{menu.subordinateHistory}">Subordinates History</a>
+								<a th:href="@{/manager/overtime/certification}">
+									Overtime Certification
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${role.roleId == 'admin'}">
+						<div class="subnav">
+							<button class="subnavbtn" th:utext="#{menu.adminMenu}">Admin Menu <i
+									class="fa fa-caret-down"></i></button>
+							<div class="subnav-content">
+								<a th:href="@{/admin/role/list}" th:utext="#{menu.admin.rlist}">Roles</a>
+								<a th:href="@{/admin/employee/list}" th:utext="#{menu.admin.elist}">Employees</a>
+								<a th:href="@{/admin/user/list}" th:utext="#{menu.admin.ulist}">Users</a>
+								<a th:href="@{/admin/category/list}" th:utext="#{menu.admin.clist}">Category</a>
+								<a th:href="@{/admin/holiday/list}" th:utext="#{menu.admin.phlist}">Public Holiday</a>
+								<a th:href="@{/hierarchy/edit}" th:utext="#{menu.admin.hlist}">Hierarchy</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${role.roleId == 'staff'}">
+						<div class="subnav">
+							<button class="subnavbtn" th:utext="#{menu.staffMenu}">Staff Menu <i
+									class="fa fa-caret-down"></i></button>
+							<div class="subnav-content">
+								<a th:href="@{/leave/main}" th:utext="#{menu.main}">History</a>
+								<a th:href="@{/leave/submission}" th:utext="#{menu.leaveSubmit}">Apply</a>
+								<a th:href="@{/overtime/add}" th:utext="#{menu.claim}">Apply</a>
+								<a th:href="@{/leave/history}" th:utext="#{menu.personalHistory}">Apply</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<a th:href="@{/home/logout}" th:utext="#{menu.logout}">Logout</a>
+
+			</div>
+
+		</nav>
+	</div>
+
+	<div th:fragment="header" id="header">
+		<div th:if="${session.user?.user}">
+			<h2><em th:utext="'Hello ' + ${session.user.user.name}"></em></h2>
+		</div>
+	</div>
+</body>

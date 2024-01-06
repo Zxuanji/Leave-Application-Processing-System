@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+    <div th:if="${not #lists.isEmpty(DecidedLeave)}">
+        <table>
+            <tr th:each="entry, stat : ${DecidedLeave} "><!--这里遍历每个人-->
+                <td>
+                    <h4 th:text="${entry.key.name}">Name</h4>
+                    <div th:if="${#lists.isEmpty(entry.value)}"><!--这边判断这个人是否有申请-->
+                        <p>No Leaves</p>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(entry.value)}">
+                        <table style="border: 1;">
+                            <tr>
+                                <th th:text="#{fieldLabel.leaveId}">LeaveId</th>
+                                <th th:text="#{fieldLabel.employeeId}">Name</th>
+                                <th th:text="#{fieldLabel.category}">Category</th>
+                                <th th:text="#{fieldLabel.startDate}">Start</th>
+                                <th th:text="#{fieldLabel.endDate}">End</th>
+                                <th th:text="#{fieldLabel.status}">Status</th>
+
+                            </tr>
+                            <tr th:each="leave : ${entry.value}">
+                                <td th:text="${leave.leaveId}">Id</td>
+                                <td th:text="${leave.employeeId}">Emp</td><!--需要在leave类里面补充名字-->
+                                <td th:text="${leave.category.name}">Name</td>
+                                <td th:text="${leave.fromDate}">From</td>
+                                <td th:text="${leave.toDate}">To</td>
+                                <td th:text="${leave.status}">Status</td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.category.list}">Category List Page</h3>
+
+	<div th:if="${not #lists.isEmpty(categoryList)}">
+		<table>
+			<tr>
+				<th><span th:text="#{fieldLabel.categoryId}"></span></th>
+				<th><span th:text="#{fieldLabel.categoryName}"></span></th>
+				<th><span th:text="#{fieldLabel.categoryDesc}"></span></th>
+				<th><span th:text="#{fieldLabel.daysOff}"></span></th>
+				<th><span th:text="#{caption.edit}"></span></th>
+			</tr>
+			<tr th:each="category : ${categoryList}">
+				<td align="left" th:text="${category.categoryId}">Id</td>
+				<td align="left" th:text="${category.name}">Name</td>
+				<td align="left" th:text="${category.description}">Description</td>
+				<td align="left" th:text="${category.daysOff}">DaysOff</td>
+				<td><a th:href="@{/admin/category/edit/}+${category.categoryId}" class="button">
+						<span th:text="#{caption.edit}"></span></a></td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

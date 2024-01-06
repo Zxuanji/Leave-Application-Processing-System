@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom_center.css}" href="../static/css/custom_center.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h2 th:text="#{title.leave}">Leave</h2>
+	<table border="1" cellspacing="0" cellpadding="10">
+		<tr>
+			<th th:text="#{fieldLabel.category}">Category</th>
+			<th th:each="cat:${categories}" th:text="${cat.name}"></th>
+		</tr>
+		<tr>
+			<th th:text="#{fieldLabel.total}">Total</th>
+			<td th:text="${totalLeaveAnnual}"></td>
+			<td th:text="${totalLeaveCompensation}"></td>
+			<td th:text="${totalLeaveMedical}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{fieldLabel.used}">Used</th>
+			<td th:text="${user.annualLeaveUsed}"></td>
+			<td th:text="${user.compensationLeaveUsed}"></td>
+			<td th:text="${user.medicalLeaveUsed}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{fieldLabel.pending}">Pending</th>
+			<td th:text="${pendingLeaveAnnual}"></td>
+			<td th:text="${pendingLeaveCompensation}"></td>
+			<td th:text="${pendingLeaveMedical}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{fieldLabel.balance}">Balance</th>
+			<td th:text="${annualLeaveBal}"></td>
+			<td th:text="${compensationLeaveBal}"></td>
+			<td th:text="${medicalLeaveBal}"></td>
+		</tr>
+	</table>
+</body>
+
+</html>

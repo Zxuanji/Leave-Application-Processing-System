@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/custom.css}" href="../static/css/custom.css">
+</head>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<div th:replace="fragments/layout.html :: header" />
+	<h3 th:text="#{title.employee.new}">New Employee Page</h3>
+
+	<form th:action="@{/admin/employee/create}" th:object="${employee}" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td><span th:text="#{fieldLabel.employeeId}"></span></td>
+					<td>
+						<input type="text" th:field="*{employeeId}" /><span th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.managerId}"></span></td>
+					<td>
+							<select th:field="*{managerId}">
+								<option value=""></option>
+								<option th:each="manager : ${eidlist}" th:value="${manager}" th:text="${manager}">List
+								</option>
+							</select><span th:if="${#fields.hasErrors('managerId')}" th:errors="*{managerId}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.name}"></span></td>
+					<td>
+							<input type="text" th:field="*{name}" /><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+							<input type="submit" value="Create" class="submit-button" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+
+</html>
